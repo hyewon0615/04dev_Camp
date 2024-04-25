@@ -100,7 +100,7 @@ export default function JoinForm() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ username, email, phoneNumber, role, passwordCheck ,password  }),
+        body: JSON.stringify({ username, email, phoneNumber, role ,password  }),
       });
       if (!response.ok) {
         throw new Error("네트워크 응답이 올바르지 않습니다");
