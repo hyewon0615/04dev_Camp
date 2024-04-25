@@ -83,9 +83,14 @@ export default function JoinForm() {
       passwordCheck: "",
     },
   });
-
+  console.log(form.watch());
   function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values);
+    const { password, passwordCheck } = values;
+    if (password !== passwordCheck) {
+      alert("비밀번호가 일치하지 않습니다.");
+      return;
+    }
     alert(JSON.stringify(values, null, 4));
   }
   return (
@@ -101,6 +106,9 @@ export default function JoinForm() {
               <motion.div
                 animate={{ translateX: `${step * -100}%` }}
                 className={cn({ hidden: step === 1 })}
+                transition={{
+                  ease: "easeInOut",
+                }}
               >
                 <FormField
                   control={form.control}
@@ -172,7 +180,10 @@ export default function JoinForm() {
               <motion.div
                 animate={{ translateX: `${(1 - step) * 100}%` }}
                 style={{ translateX: `${(1 - step) * 100}%` }}
-                className={cn({ hidden: step === 0 })}
+                className={cn({ hidden: step === 0 }, "min-h-[305px]")}
+                transition={{
+                  ease: "easeInOut",
+                }}
               >
                 <FormField
                   control={form.control}
