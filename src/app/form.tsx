@@ -99,42 +99,26 @@ export default function JoinForm() {
       return;
     }
     try {
-      const response = await fetch("/api/auth/check-email", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email }), // 이메일 정보를 서버에 전송
-      });
-      const responseData = await response.json();
-
-      // 서버 응답에 따라 처리
-      if (responseData.exists) {
-        // 이메일이 이미 존재하는 경우
-        alert("이미 등록된 이메일입니다.");
-        return;
-      }
-
       // 이메일이 존재하지 않는 경우 회원가입을 진행
-      const registerResponse = await fetch("/api/auth/register", {
+      const response = await fetch("/api/auth/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ username, email, phoneNumber, role, password }),
       });
-      if (!registerResponse.ok) {
+      if (!response.ok) {
         throw new Error("네트워크 응답이 올바르지 않습니다");
       }
 
       // 여기서 응답 처리
       console.log("등록 성공", response);
-      toast({ title: "등록 성공" });
+      alert("회원가입 성공! 로그인 페이지로 이동합니다");
       router.push("/login");
     } catch (error: any) {
       console.error("등록 실패:", error);
-      alert("이미 등록된 이메일입니다");
-      setStep(0);
+      alert("회원가입 오류");
+
       toast({ title: "등록 실패", description: error.message });
     }
   };
